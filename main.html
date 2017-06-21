@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Spam Cleaner Util</title>
+    <title>Music Junk Cleaner</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
     <style>
     	.container{text-align: center;}
-    	h1{margin-top: 15vh; margin-bottom: 2vh;}
+    	h2{margin-top: 15vh; margin-bottom: 3vh;}
     	*:active, *:focus{outline: 0;}
     	input[type="text"]{padding: 0 5px; background: lightyellow; text-align: center;}
         .progress{margin:0;}
@@ -23,11 +23,14 @@
       <div class="determinate green" id="determinate" style="width: 0%"></div>
   </div>
 	<main class="container">
-		<h1>Music Spam Remover</h1>
-		<p>Mark the spam in the container there , this here is a feasable spam <a href="">view more</a></p>
+		<h2>Music Junk Cleaner</h2>
+		<p class="">
+            Utility for cleaning music files. Kindly mark/keep junk data in input field, if shown.
+        </p>
+
 		<div class="inline" id="box">
 			<input type="text" id="fileData" class="input-field yello lighten-4" data-origin="">
-            <button class="waves-effect waves-light btn red" id="sbutton">Mark Spam</button>
+            <button class="waves-effect waves-light btn red" id="sbutton">That one's junk</button>
 		</div>
 	</main>
 	<script type="text/javascript">
@@ -40,7 +43,9 @@
         }
         conn.onclose = function(evt) {
             console.log("Connection Closed")
-            document.getElementById('box').innerHTML = "Completed processing of "+ pr_max+ " music files"
+            document.getElementById('box').innerHTML = "Completed processing of "+ pr_max+ " music files."
+            document.getElementById("determinate").style.width = "100%";
+            document.getElementById('box').style.background = "#fffde7";
         }
         conn.onmessage = function(evt) {
             var localData = JSON.parse(evt.data);
@@ -49,7 +54,7 @@
             document.getElementById("determinate").style.width = x +"%";
         }
         document.getElementById("sbutton").addEventListener("click", function(){
-            conn.send(JSON.stringify({spam : data.value}));
+            conn.send(JSON.stringify({junk : data.value}));
         });
     })();
 	</script>
