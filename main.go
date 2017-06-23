@@ -14,6 +14,7 @@ import (
 	"strings"
 )
 
+//ResponseMsg is the format in which server sends websocket to clients
 type ResponseMsg struct {
 	Count   int
 	Context string
@@ -25,6 +26,7 @@ var (
 	upgrader  = websocket.Upgrader{}
 )
 
+//LinesFromFile reads string from path and return array of string line by line
 func LinesFromFile(path string) ([]string, error) {
 	var arr []string
 
@@ -44,6 +46,7 @@ func LinesFromFile(path string) ([]string, error) {
 	return arr, nil
 }
 
+//BrowseXFiles reads all x types of files from root path & return filepaths in an array of string
 func BrowseXFiles(x string, root string) ([]string, error) {
 	var arr []string
 	err := filepath.Walk(root, func(path string, f os.FileInfo, err error) error {
@@ -113,22 +116,22 @@ func compute(w http.ResponseWriter, r *http.Request) {
 	webRex := "(www.|)[a-zA-Z0-9_\\-]+\\.[a-zA-Z]{2,4}"
 	rx, _ := regexp.Compile(webRex)
 	var iter = 0
-	var cleaned_fi string
+	var cleanedFi string
 
 	//Scan music list
 	for _, fi := range musicList {
 		iter = iter + 1
 
 		//Only base names, mp3 extension exclude
-		cleaned_fi = filepath.Base(strings.TrimSuffix(fi, ".mp3"))
+		cleanedFi = filepath.Base(strings.TrimSuffix(fi, ".mp3"))
 
 		//Possible junk with websites name, other exclude
-		if rx.MatchString(cleaned_fi) {
+		if rx.MatchString(cleanedFi) {
 
 			//junk List Match
-			junk := stringInSlice(cleaned_fi, junkList)
+			junk := stringInSlice(cleanedFi, junkList)
 			if junk == "" { //junk not found
-				c.WriteJSON(&ResponseMsg{iter, cleaned_fi})
+				c.WriteJSON(&ResponseMsg{iter, cleanedFi})
 
 				var v = struct{ junk string }{}
 				c.ReadJSON(&v)
@@ -141,7 +144,7 @@ func compute(w http.ResponseWriter, r *http.Request) {
 			// os.Rename(fi, strings.Replace(fi, junk, "", 1))
 		}
 	}
-	c.WriteJSON(&ResponseMsg{iter, cleaned_fi})
+	c.WriteJSON(&ResponseMsg{iter, cleanedFi})
 	c.Close()
 }
 
