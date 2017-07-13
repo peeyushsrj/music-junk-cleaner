@@ -1,28 +1,37 @@
-![Build Status](https://circleci.com/gh/peeyushsrj/music-junk-cleaner.png)
+![Build Status](https://circleci.com/gh/peeyushsrj/ui-music-junk-cleaner.png?style=shield)
 
-# ui-music-junk-cleaner
+# Music-junk-cleaner
 
-For terminal based utility look at core-music-junk-cleaner. 
-
-It scans the music directory provided in input, rename music files by removing the junk data. If it finds a new junk data pattern, it will prompt you to mark and then it will clean/rename such patterns. (WITH A WEB INTERFACE)
+It scans mp3 files in the current directory, and then recursively into subdirectories and it prompts a potential junk mp3 files. Once a junk is marked, it will handle same similar found patterns and delete the junk data from such files. 
 
 [![Screenshot](https://s20.postimg.org/lrrw1qf65/Screenshot_from_2017-06-23_19-27-01.png)](https://postimg.org/image/66akhs37t/)
 
-### Build instructions
+For library purpose or commandline usage, try [core-music-junk-cleaner](https://github.com/peeyushsrj/core-music-junk-cleaner).
 
-- Golang must be installed.
-- Installing package `go get github.com/gorilla/websocket`.
-- Clone it `git clone https://github.com/peeyushsrj/music-junk-cleaner/`
+## Installation
+
+[Download](https://github.com/peeyushsrj/ui-music-junk-cleaner/releases) the binaries for your operating system, and run it in your music directory! Now open [http://localhost:7899/](http://localhost:7899/) in browser. Prompt-Mark-Clean!
+
+
+## Build Instructions
+
+- Install Go.
+- Installing dependent packages.  
+```
+	go get github.com/gorilla/websocket
+	github.com/skratchdot/open-golang/open
+```
+- Clone it `git clone https://github.com/peeyushsrj/ui-music-junk-cleaner/`
 - Changed directory & build it `go build`.
-- Run the binary file ! `./music-junk-cleaner /home/user/some_music_directory/`
-- Open `http://localhost:7899`.
 
 
-### Future TODO
+## Future TODO
 
-- [ ] Launching a browser on startup, demo gif on readme, support other music formats.
-- [ ] Setting up CI for X platform Binaries.
+- [x] Launching a browser.
+- [x] Setting up CI for X platform Binaries.
+- [x] Run in current directory.
+- [ ] Support other music formats.
 
-### License
+## License
 
 The MIT License (MIT) Copyright (c) 2017 Peeyush Singh

@@ -3,8 +3,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
-	"github.com/gorilla/websocket"
 	"html/template"
 	"log"
 	"net/http"
@@ -12,6 +10,9 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+
+	"github.com/gorilla/websocket"
+	"github.com/skratchdot/open-golang/open"
 )
 
 //ResponseMsg is the format in which server sends websocket to clients
@@ -64,12 +65,7 @@ func BrowseXFiles(x string, root string) ([]string, error) {
 }
 
 func main() {
-	if len(os.Args) == 1 {
-		fmt.Printf("Usage: %s [path to mp3s]\n", os.Args[0])
-		return
-	}
-
-	//load local junk list
+	//Load local junk list
 	l, err := LinesFromFile("./junk.txt")
 	if err != nil {
 		log.Fatal("Error loading in junklist", err)
@@ -77,14 +73,15 @@ func main() {
 	junkList = l
 
 	// musicList = []string{}
-	musicList, err = BrowseXFiles(".mp3", os.Args[1:][0])
+	musicList, err = BrowseXFiles(".mp3", ".")
 	if err != nil {
 		log.Fatal("Error in walking over files", err)
 	}
 
 	http.HandleFunc("/", home)
 	http.HandleFunc("/ws", compute)
-	log.Println("Running on :7899")
+	log.Println("Running on http://localhost:7899/")
+	open.Run("http://localhost:7899/")
 	err = http.ListenAndServe(":7899", nil)
 	if err != nil {
 		log.Fatal("listenAndServe", err)
@@ -100,7 +97,7 @@ func home(rw http.ResponseWriter, req *http.Request) {
 		req.Host,
 		len(musicList),
 	}
-	t := template.Must(template.ParseFiles("main.html"))
+	t := template.Must(template.ParseFiles("./ui.tmpl"))
 	t.Execute(rw, &v)
 }
 

@@ -1,0 +1,22 @@
+# .goreleaser.yml
+# Build customization
+builds:
+  - binary: mj-cleaner
+    goos:
+      - windows
+      - darwin
+      - linux
+    goarch:
+      - 386
+      - amd64
+#archive customization
+archive:
+  format: tar.gz
+  replacements:
+    amd64: 64-bit
+    386: 32-bit
+    darwin: macOS
+  files:
+    - LICENSE.md
+    - main.html
+    - README.md
