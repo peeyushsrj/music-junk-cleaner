@@ -18,5 +18,5 @@ archive:
     darwin: macOS
   files:
     - LICENSE.md
-    - main.html
+    - ui.tmpl
     - README.md
